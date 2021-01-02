@@ -14,10 +14,10 @@ class Payment : Serializable {
         days = 0
     }
 
-    constructor(name: String, dailyIncome: Double, days: Int) {
-        this.name = name
-        this.dailyIncome = dailyIncome
-        this.days = days
+    constructor(name: String?, dailyIncome: Double?, days: Int?) {
+        this.name = name ?: ""
+        this.dailyIncome = dailyIncome ?: 0.0
+        this.days = days ?: 0
     }
 
     fun getTotal(): Double {

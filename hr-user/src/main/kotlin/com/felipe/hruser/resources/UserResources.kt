@@ -22,7 +22,7 @@ class UserResources {
     }
 
     @GetMapping(value = ["/search"])
-    fun findById(@RequestParam email: String): ResponseEntity<User> {
+    fun findByEmail(@RequestParam email: String): ResponseEntity<User> {
         val user = userRepository.findByEmail(email).get()
 
         return ResponseEntity.ok(user)

@@ -1,14 +1,18 @@
 package com.felipe.hroauth.entities
 
+import com.fasterxml.jackson.annotation.JsonProperty
+import org.springframework.security.core.GrantedAuthority
+import org.springframework.security.core.authority.SimpleGrantedAuthority
+import org.springframework.security.core.userdetails.UserDetails
 import java.io.Serializable
 
 class User(
-        var id: Long,
-        var name: String,
-        var email: String,
-        var password: String,
-        var roles: Set<Role> = HashSet()
-) : Serializable {
+    var id: Long,
+    var name: String,
+    var email: String,
+    private val password: String,
+    var roles: Set<Role> = HashSet()
+) : UserDetails, Serializable {
     constructor() : this(0, "", "", "")
 
     override fun equals(other: Any?): Boolean {
@@ -26,5 +30,33 @@ class User(
         return id.hashCode()
     }
 
+    override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
+        return roles.map {
+            SimpleGrantedAuthority(it.name)
+        }.toMutableList()
+    }
 
+    override fun getPassword(): String {
+        return password
+    }
+
+    override fun getUsername(): String {
+        return email
+    }
+
+    override fun isAccountNonExpired(): Boolean {
+        return true
+    }
+
+    override fun isAccountNonLocked(): Boolean {
+        return true
+    }
+
+    override fun isCredentialsNonExpired(): Boolean {
+        return true
+    }
+
+    override fun isEnabled(): Boolean {
+        return true
+    }
 }

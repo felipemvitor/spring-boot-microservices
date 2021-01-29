@@ -1,7 +1,7 @@
 package com.felipe.hroauth.config
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -15,7 +15,13 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore
 
 @Configuration
 @EnableAuthorizationServer
-open class AuthorizationServerConfig : AuthorizationServerConfigurerAdapter() {
+class AuthorizationServerConfig : AuthorizationServerConfigurerAdapter() {
+
+    @Value("\${oauth.client.name}")
+    private var clientName: String = ""
+
+    @Value("\${oauth.client.secret}")
+    private var clientSecret: String = ""
 
     @Autowired
     private lateinit var passwordEncoder: BCryptPasswordEncoder
@@ -31,19 +37,26 @@ open class AuthorizationServerConfig : AuthorizationServerConfigurerAdapter() {
 
 
     override fun configure(security: AuthorizationServerSecurityConfigurer?) {
+        print("Client name: $clientName")
+        print("Client secret: $clientSecret")
         security?.tokenKeyAccess("permitAll()")?.checkTokenAccess("isAuthenticated()")
     }
 
     override fun configure(clients: ClientDetailsServiceConfigurer?) {
+        print("Client name: $clientName")
+        print("Client secret: $clientSecret")
+
         clients?.inMemory()
-            ?.withClient("myappname123")
-            ?.secret(passwordEncoder.encode("myappsecret123"))
+            ?.withClient(clientName)
+            ?.secret(passwordEncoder.encode(clientSecret))
             ?.scopes("read", "write")
             ?.authorizedGrantTypes("password")
             ?.accessTokenValiditySeconds(86400)
     }
 
     override fun configure(endpoints: AuthorizationServerEndpointsConfigurer?) {
+        print("Client name: $clientName")
+        print("Client secret: $clientSecret")
         endpoints
             ?.authenticationManager(authenticationManager)
             ?.tokenStore(tokenStore)

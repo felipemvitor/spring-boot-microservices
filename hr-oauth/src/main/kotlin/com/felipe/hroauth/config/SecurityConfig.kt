@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 
 @Configuration
-open class SecurityConfig : WebSecurityConfigurerAdapter() {
+class SecurityConfig : WebSecurityConfigurerAdapter() {
 
     @Autowired
     private lateinit var passwordEncoder: BCryptPasswordEncoder
@@ -20,9 +20,7 @@ open class SecurityConfig : WebSecurityConfigurerAdapter() {
 
     @Autowired
     override fun configure(auth: AuthenticationManagerBuilder?) {
-        auth
-            ?.userDetailsService(userDetailsService)
-            ?.passwordEncoder(passwordEncoder)
+        auth?.userDetailsService(userDetailsService)?.passwordEncoder(passwordEncoder)
     }
 
     @Bean

@@ -3,8 +3,8 @@ package com.felipe.hroauth.entities
 import java.io.Serializable
 
 class Role(
-        var id: Long,
-        var name: String
+    var id: Long,
+    var name: String
 ) : Serializable {
 
     constructor() : this(0, "")

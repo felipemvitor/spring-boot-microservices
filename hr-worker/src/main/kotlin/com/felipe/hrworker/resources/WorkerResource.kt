@@ -21,9 +21,9 @@ class WorkerResource {
     companion object {
         private var logger = LoggerFactory.getLogger(WorkerResource::class.java)
     }
-
-    @Value("\${test.config}")
-    private lateinit var testConfig: String
+//
+//    @Value("\${test.config}")
+//    private lateinit var testConfig: String
 
     @Autowired
     private lateinit var env: Environment
@@ -33,7 +33,7 @@ class WorkerResource {
 
     @GetMapping(value = ["/configs"])
     fun getConfigs(): ResponseEntity<List<Worker>> {
-        logger.info("CONFIG = " + testConfig)
+//        logger.info("CONFIG = $testConfig")
         return ResponseEntity.noContent().build()
     }
 
